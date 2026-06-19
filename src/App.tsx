@@ -597,7 +597,7 @@ export default function App() {
   }
 
   if (page === "about") {
-    return <About onBack={() => setPage("home")} theme={theme} toggleTheme={toggleTheme} />
+    return <About/>
   }
 
   return (
