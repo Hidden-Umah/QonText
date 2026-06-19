@@ -2,6 +2,7 @@
     margin:0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .wrapper {
@@ -15,15 +16,26 @@
 .header {
     width: 100vw;
     height: 10vh;
-    background-color: blue;
     margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 80px;
+}
+
+.logo {
+    display: flex;
+}
+
+.logo h1 {
+    color: #56d4fa;
 }
 
 .tools{
     
     width: 60vw;
     height: 8vh;
-    box-shadow: 0px 0px 4px 1px rgba(0,0,0,0.5);
+    box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.185);
     border-radius: 8px;
 }
 
@@ -33,14 +45,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: brown;
 }
 
 .workingArea {
     margin-top: 20px;
     width: 100vw;
     height: 70vh;
-    background-color: chartreuse;
     display: flex;
     padding: 2rem;
     gap: 20px;
@@ -49,12 +59,14 @@
 .plugins {
     width: 25vw;
     height:60vh;
-    background-color: crimson;
+    background-color: #434685ff;
+    border-radius: 8px;
 }
 
 .paper {
     width: 55vw;
     height: 60vh;
     background-color: white;
+    box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.185);
 }
 

@@ -1,11 +1,15 @@
 import "./style.css"
+import Logo from "../public/QonText-Logo.png"
 
 export default function App() {
   return (
     <div className="wrapper">
 
       <div className="header">
-        <div className="logo"></div>
+        <div className="logo">
+          <img src={Logo} height={50} />
+          <h1> <span style={{ color: '#434685ff'  }}>Q</span>onText</h1>
+        </div>
         <div className="theme"></div>
       </div>
 
