@@ -1,4 +1,4 @@
-const sentence = [
+export const sentence = [
   "Bro give up, I am lying don't mind me",
   "I saw your girlfriend with Kweku at the Pent... let me keep quiet errh",
   "I can see you're hungry because the way you are working die33 naa bro",

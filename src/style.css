@@ -801,6 +801,39 @@ body {
     background-color: var(--surface-soft);
 }
 
+/* Typewriter styles */
+.typewriter-container {
+    flex: 1;
+    margin: 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    min-width: 0;
+}
+
+.typewriter-text {
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+    max-width: 100%;
+}
+
+.typewriter-cursor {
+    font-weight: bold;
+    color: var(--primary);
+    margin-left: 2px;
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
 @media (max-width: 1080px) {
     .wrapper {
         height: auto;
@@ -823,6 +856,10 @@ body {
 }
 
 @media (max-width: 760px) {
+    .typewriter-container {
+        display: none;
+    }
+
     .header {
         padding: 16px 20px;
     }

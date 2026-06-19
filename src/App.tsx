@@ -1,4 +1,4 @@
-import { type ChangeEvent, type ReactNode, useState } from "react"
+import { type ChangeEvent, type ReactNode, useEffect, useState } from "react"
 import {
   FaCopy,
   FaDownload,
@@ -13,6 +13,7 @@ import {
 } from "react-icons/fa"
 import "./style.css"
 import Logo from "../public/QonText-Logo.png"
+import { sentence } from "./talk"
 
 type Brief = {
   projectName: string
@@ -400,6 +401,45 @@ const renderReadmePreview = (markdown: string) => {
   return blocks
 }
 
+function Typewriter({ words }: { words: string[] }) {
+  const [index, setIndex] = useState(0)
+  const [subIndex, setSubIndex] = useState(0)
+  const [reverse, setReverse] = useState(false)
+
+  useEffect(() => {
+    if (!words || words.length === 0) return
+
+    // If typewriter finished typing a sentence
+    if (subIndex === words[index].length + 1 && !reverse) {
+      const timeout = setTimeout(() => setReverse(true), 2500)
+      return () => clearTimeout(timeout)
+    }
+
+    // If typewriter finished deleting a sentence
+    if (subIndex === 0 && reverse) {
+      setReverse(false)
+      setIndex((prev) => (prev + 1) % words.length)
+      return
+    }
+
+    // Typing speed vs. deleting speed
+    const timeout = setTimeout(() => {
+      setSubIndex((prev) => prev + (reverse ? -1 : 1))
+    }, reverse ? 35 : 75)
+
+    return () => clearTimeout(timeout)
+  }, [subIndex, reverse, index, words])
+
+  return (
+    <div className="typewriter-container">
+      <span className="typewriter-text">
+        {words[index].substring(0, subIndex)}
+        <span className="typewriter-cursor">|</span>
+      </span>
+    </div>
+  )
+}
+
 export default function App() {
   const [brief, setBrief] = useState(defaultBrief)
   const [markdown, setMarkdown] = useState(generateMarkdown(defaultBrief))
@@ -550,6 +590,7 @@ export default function App() {
           <img src={Logo} height={50} alt="QonText logo" />
           <h1> <span style={{ color: '#434685ff'  }}>Q</span>onText</h1>
         </div>
+        <Typewriter words={sentence} />
         <div className="headerActions">
           <button
             className="aboutIcon"
