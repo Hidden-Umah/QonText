@@ -4,9 +4,12 @@ import {
   FaDownload,
   FaEye,
   FaFileAlt,
+  FaInfoCircle,
+  FaLongArrowAltLeft,
   FaMoon,
   FaPen,
   FaPlus,
+  FaUpload,
 } from "react-icons/fa"
 import "./style.css"
 import Logo from "../public/QonText-Logo.png"
@@ -174,6 +177,16 @@ const parseMarkdown = (markdown: string): Brief => {
     deliverables: cleanList(readSection(markdown, "Deliverables")),
     notes: readSection(markdown, "Notes"),
   }
+}
+
+const createFileName = (title: string) => {
+  const cleanTitle = title
+    .trim()
+    .replace(/[^a-z0-9\s-]/gi, "")
+    .replace(/\s+/g, "-")
+    .toLowerCase()
+
+  return `${cleanTitle || "README"}.md`
 }
 
 const renderInline = (text: string) => {
@@ -392,6 +405,8 @@ export default function App() {
   const [markdown, setMarkdown] = useState(generateMarkdown(defaultBrief))
   const [copied, setCopied] = useState(false)
   const [previewMode, setPreviewMode] = useState(false)
+  const [fullPreviewMode, setFullPreviewMode] = useState(false)
+  const [page, setPage] = useState<"home" | "about">("home")
 
   const updateBrief = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -415,6 +430,8 @@ export default function App() {
   const startNewBrief = () => {
     setBrief(emptyBrief)
     setMarkdown(generateMarkdown(emptyBrief))
+    setPreviewMode(false)
+    setFullPreviewMode(false)
   }
 
   const addFormatToPaper = (format: string) => {
@@ -431,15 +448,99 @@ export default function App() {
     window.setTimeout(() => setCopied(false), 1600)
   }
 
+  const uploadMarkdown = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+
+    if (!file) {
+      return
+    }
+
+    const uploadedMarkdown = await file.text()
+
+    setMarkdown(uploadedMarkdown)
+    setBrief(parseMarkdown(uploadedMarkdown))
+    setPreviewMode(true)
+    setFullPreviewMode(true)
+    event.target.value = ""
+  }
+
   const downloadMarkdown = () => {
     const blob = new Blob([markdown], { type: "text/markdown" })
     const url = URL.createObjectURL(blob)
     const link = document.createElement("a")
 
     link.href = url
-    link.download = `${brief.projectName || "qontext-brief"}.md`
+    link.download = createFileName(brief.projectName)
     link.click()
     URL.revokeObjectURL(url)
+  }
+
+  if (fullPreviewMode) {
+    return (
+      <div className="previewPage">
+        <div className="previewPageHeader">
+          <button
+            className="backButton"
+            type="button"
+            onClick={() => setFullPreviewMode(false)}
+          >
+            <FaLongArrowAltLeft />
+            Back to editor
+          </button>
+          <div className="previewPageTitle">
+            <span>{createFileName(brief.projectName)}</span>
+            <small>Uploaded document preview</small>
+          </div>
+          <div className="previewPageActions">
+            <button type="button" onClick={copyMarkdown}>
+              <FaCopy />
+              {copied ? "Copied" : "Copy"}
+            </button>
+            <button type="button" onClick={downloadMarkdown}>
+              <FaDownload />
+              Download
+            </button>
+          </div>
+        </div>
+
+        <main className="previewPageBody">
+          <article className="previewDocument">
+            {renderReadmePreview(markdown)}
+          </article>
+        </main>
+      </div>
+    )
+  }
+
+  if (page === "about") {
+    return (
+      <div className="aboutPage">
+        <div className="header">
+          <button
+            className="backButton"
+            type="button"
+            onClick={() => setPage("home")}
+          >
+            <FaLongArrowAltLeft />
+            Back
+          </button>
+          <h1>About</h1>
+          <div className="headerActions">
+            <button
+              className="aboutIcon"
+              type="button"
+              aria-label="About page"
+            >
+              <FaInfoCircle />
+            </button>
+            <button className="theme" type="button" aria-label="Toggle theme">
+              <FaMoon />
+            </button>
+          </div>
+        </div>
+        <main className="aboutBody" />
+      </div>
+    )
   }
 
   return (
@@ -449,18 +550,40 @@ export default function App() {
           <img src={Logo} height={50} alt="QonText logo" />
           <h1> <span style={{ color: '#434685ff'  }}>Q</span>onText</h1>
         </div>
-        <button className="theme" type="button" aria-label="Toggle theme">
-          <FaMoon />
-        </button>
+        <div className="headerActions">
+          <button
+            className="aboutIcon"
+            type="button"
+            aria-label="Open about page"
+            onClick={() => setPage("about")}
+          >
+            <FaInfoCircle />
+          </button>
+          <button className="theme" type="button" aria-label="Toggle theme">
+            <FaMoon />
+          </button>
+        </div>
       </div>
 
       <div className="holder">
         <div className="tools">
           <div className="toolTitle">
             <FaFileAlt />
-            <span>README Brief Builder</span>
+            <div>
+              <span>Document Builder</span>
+              <small>Write, preview, copy, and download Markdown briefs</small>
+            </div>
           </div>
           <div className="toolButtons">
+            <label className="uploadButton">
+              <FaUpload />
+              Upload
+              <input
+                type="file"
+                accept=".md,.markdown,.txt,text/markdown,text/plain"
+                onChange={uploadMarkdown}
+              />
+            </label>
             <button type="button" onClick={copyMarkdown}>
               <FaCopy />
               {copied ? "Copied" : "Copy"}
@@ -564,7 +687,7 @@ export default function App() {
 
         <div className="paper">
           <div className="paperHeader">
-            <span>README.md</span>
+            <span>{createFileName(brief.projectName)}</span>
             <button
               className="previewButton"
               type="button"
