@@ -1,9 +1,28 @@
-import { routes } from './routes'
+import "./style.css"
 
-function App() {
-  const Home = routes.home
+export default function App() {
+  return (
+    <div className="wrapper">
 
-  return <Home />
+      <div className="header">
+        <div className="logo"></div>
+        <div className="theme"></div>
+      </div>
+
+
+      <div className="holder">
+        <div className="tools">
+        </div>
+      </div>
+
+
+      <div className="workingArea">
+        <div className="plugins"></div>
+        <div className="paper"></div>
+        <div className="plugins"></div>
+      </div>
+
+
+    </div>
+  )
 }
-
-export default App

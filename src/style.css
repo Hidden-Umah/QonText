@@ -1,0 +1,60 @@
+* {
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.wrapper {
+    width: 100vw;
+    height: 100vh;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    width: 100vw;
+    height: 10vh;
+    background-color: blue;
+    margin-bottom: 20px;
+}
+
+.tools{
+    
+    width: 60vw;
+    height: 8vh;
+    box-shadow: 0px 0px 4px 1px rgba(0,0,0,0.5);
+    border-radius: 8px;
+}
+
+.holder{
+    width: 100vw;
+    height: 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: brown;
+}
+
+.workingArea {
+    margin-top: 20px;
+    width: 100vw;
+    height: 70vh;
+    background-color: chartreuse;
+    display: flex;
+    padding: 2rem;
+    gap: 20px;
+}
+
+.plugins {
+    width: 25vw;
+    height:60vh;
+    background-color: crimson;
+}
+
+.paper {
+    width: 55vw;
+    height: 60vh;
+    background-color: white;
+}
+
