@@ -9,11 +9,13 @@ import {
   FaMoon,
   FaPen,
   FaPlus,
+  FaSun,
   FaUpload,
 } from "react-icons/fa"
 import "./style.css"
 import Logo from "../public/QonText-Logo.png"
 import { sentence } from "./talk"
+import About from "./About"
 
 type Brief = {
   projectName: string
@@ -473,6 +475,22 @@ export default function App() {
   const [previewMode, setPreviewMode] = useState(false)
   const [fullPreviewMode, setFullPreviewMode] = useState(false)
   const [page, setPage] = useState<"home" | "about">("home")
+  const [theme, setTheme] = useState<"light" | "dark">(() => {
+    return (localStorage.getItem("theme") as "light" | "dark") || "light"
+  })
+
+  useEffect(() => {
+    if (theme === "dark") {
+      document.body.classList.add("dark")
+    } else {
+      document.body.classList.remove("dark")
+    }
+    localStorage.setItem("theme", theme)
+  }, [theme])
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "light" ? "dark" : "light"))
+  }
 
   const updateBrief = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -579,34 +597,7 @@ export default function App() {
   }
 
   if (page === "about") {
-    return (
-      <div className="aboutPage">
-        <div className="header">
-          <button
-            className="backButton"
-            type="button"
-            onClick={() => setPage("home")}
-          >
-            <FaLongArrowAltLeft />
-            Back
-          </button>
-          <h1>About</h1>
-          <div className="headerActions">
-            <button
-              className="aboutIcon"
-              type="button"
-              aria-label="About page"
-            >
-              <FaInfoCircle />
-            </button>
-            <button className="theme" type="button" aria-label="Toggle theme">
-              <FaMoon />
-            </button>
-          </div>
-        </div>
-        <main className="aboutBody" />
-      </div>
-    )
+    return <About onBack={() => setPage("home")} theme={theme} toggleTheme={toggleTheme} />
   }
 
   return (
@@ -626,8 +617,13 @@ export default function App() {
           >
             <FaInfoCircle />
           </button>
-          <button className="theme" type="button" aria-label="Toggle theme">
-            <FaMoon />
+          <button
+            className="theme"
+            type="button"
+            aria-label="Toggle theme"
+            onClick={toggleTheme}
+          >
+            {theme === "dark" ? <FaSun /> : <FaMoon />}
           </button>
         </div>
       </div>

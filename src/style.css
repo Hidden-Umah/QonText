@@ -85,7 +85,7 @@ body {
 }
 
 .logo h1 span {
-    color: var(--primary) !important;
+    color: #434685ff !important;
 }
 
 .headerActions {
@@ -939,4 +939,121 @@ body {
     .readmePreview {
         padding: 22px;
     }
+}
+
+/* Dark theme overrides inspired by Claude AI */
+body.dark {
+    --bg: #191919;               /* Deep charcoal background */
+    --surface: #222222;          /* Panel background */
+    --surface-soft: #2a2a2a;     /* Hover states */
+    --line: transparent;         /* Remove borders on divs/containers */
+    --line-strong: #333333;      /* Subtle border color for table lines */
+    --text: #ffffff;             /* White text */
+    --muted: #a0a0a0;            /* Soft gray muted text */
+    --primary: #e05e38;          /* Claude's terracotta orange accent */
+    --primary-dark: #c94f2c;     /* Darker orange for hovers */
+    --primary-soft: #38241e;     /* Deep warm orange tint */
+    --accent: #e05e38;           /* Accent color */
+    --code: #2d2d2d;             /* Code block bg */
+    --shadow: 0 16px 45px rgba(0, 0, 0, 0.4);
+    --shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+body.dark .logo h1 {
+    color: var(--text);
+}
+
+body.dark .wrapper {
+    background:
+        linear-gradient(180deg, var(--surface) 0%, rgba(25, 25, 25, 0) 360px),
+        var(--bg);
+}
+
+body.dark .header {
+    background-color: rgba(25, 25, 25, 0.9);
+}
+
+body.dark .aboutPage {
+    background:
+        linear-gradient(180deg, var(--surface) 0%, rgba(25, 25, 25, 0) 360px),
+        var(--bg);
+}
+
+body.dark .tools {
+    background-color: rgba(34, 34, 34, 0.92);
+}
+
+body.dark .previewPageHeader {
+    background-color: rgba(25, 25, 25, 0.92);
+}
+
+body.dark .plugins label {
+    color: var(--muted);
+}
+
+body.dark .plugins input:focus,
+body.dark .plugins textarea:focus {
+    background-color: var(--surface);
+    border-color: rgba(224, 94, 56, 0.72);
+    box-shadow: 0 0 0 4px rgba(224, 94, 56, 0.1);
+}
+
+body.dark .uploadButton {
+    box-shadow: 0 10px 20px rgba(224, 94, 56, 0.18);
+}
+
+body.dark .newBrief:focus {
+    box-shadow: 0 0 0 4px rgba(224, 94, 56, 0.15);
+}
+
+body.dark .formatCard:hover {
+    border-color: rgba(224, 94, 56, 0.34);
+}
+
+body.dark .formatCard code {
+    color: var(--text);
+}
+
+body.dark .formatPreview {
+    background-color: var(--surface-soft);
+    color: var(--text);
+}
+
+body.dark .formatPreview blockquote {
+    color: var(--muted);
+    background-color: var(--code);
+}
+
+body.dark .previewButton {
+    border-color: rgba(224, 94, 56, 0.34);
+}
+
+body.dark .paperEditor {
+    background-color: var(--surface);
+}
+
+body.dark .readmePreview {
+    color: var(--text);
+    background-color: var(--surface);
+}
+
+body.dark .readmePreview h1,
+body.dark .readmePreview h2,
+body.dark .readmePreview h3 {
+    color: var(--text);
+}
+
+body.dark .readmePreview blockquote {
+    color: var(--muted);
+    background-color: var(--surface-soft);
+}
+
+body.dark .previewDocument {
+    background-color: var(--surface);
+}
+
+body.dark .previewDocument h1,
+body.dark .previewDocument h2,
+body.dark .previewDocument h3 {
+    color: var(--text);
 }
