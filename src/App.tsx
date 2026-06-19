@@ -402,15 +402,31 @@ const renderReadmePreview = (markdown: string) => {
 }
 
 function Typewriter({ words }: { words: string[] }) {
+  const [shuffledWords, setShuffledWords] = useState<string[]>([])
   const [index, setIndex] = useState(0)
   const [subIndex, setSubIndex] = useState(0)
   const [reverse, setReverse] = useState(false)
 
+  // Shuffle sentences on component mount
   useEffect(() => {
-    if (!words || words.length === 0) return
+    if (words && words.length > 0) {
+      const arr = [...words]
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1))
+        ;[arr[i], arr[j]] = [arr[j], arr[i]]
+      }
+      setShuffledWords(arr)
+      setIndex(0)
+    }
+  }, [words])
+
+  useEffect(() => {
+    if (shuffledWords.length === 0) return
+
+    const currentWord = shuffledWords[index]
 
     // If typewriter finished typing a sentence
-    if (subIndex === words[index].length + 1 && !reverse) {
+    if (subIndex === currentWord.length + 1 && !reverse) {
       const timeout = setTimeout(() => setReverse(true), 2500)
       return () => clearTimeout(timeout)
     }
@@ -418,7 +434,7 @@ function Typewriter({ words }: { words: string[] }) {
     // If typewriter finished deleting a sentence
     if (subIndex === 0 && reverse) {
       setReverse(false)
-      setIndex((prev) => (prev + 1) % words.length)
+      setIndex((prev) => (prev + 1) % shuffledWords.length)
       return
     }
 
@@ -428,12 +444,22 @@ function Typewriter({ words }: { words: string[] }) {
     }, reverse ? 35 : 75)
 
     return () => clearTimeout(timeout)
-  }, [subIndex, reverse, index, words])
+  }, [subIndex, reverse, index, shuffledWords])
+
+  if (shuffledWords.length === 0) {
+    return (
+      <div className="typewriter-container">
+        <span className="typewriter-text">
+          <span className="typewriter-cursor">|</span>
+        </span>
+      </div>
+    )
+  }
 
   return (
     <div className="typewriter-container">
       <span className="typewriter-text">
-        {words[index].substring(0, subIndex)}
+        {shuffledWords[index].substring(0, subIndex)}
         <span className="typewriter-cursor">|</span>
       </span>
     </div>

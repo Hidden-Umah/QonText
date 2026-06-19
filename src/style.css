@@ -804,7 +804,7 @@ body {
 /* Typewriter styles */
 .typewriter-container {
     flex: 1;
-    margin: 0 32px;
+    margin: 0 32px 0 160px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
